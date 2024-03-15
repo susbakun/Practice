@@ -1,16 +1,20 @@
 interface ItemProps {
-  packed: boolean
   value: string
-  onCheckOff: () => void
+  packed: boolean
+  onCheckOff(): void
+  onDelete(): void
 }
 
-function Item({ packed, value, onCheckOff }: ItemProps) {
+function Item({ value, packed, onCheckOff, onDelete }: ItemProps) {
   return (
     <article className="Item">
       <label>
         <input type="checkbox" checked={packed} onChange={onCheckOff} />
         {value}
       </label>
+      <button className="delete" onClick={onDelete}>
+        ❌
+      </button>
     </article>
   )
 }
