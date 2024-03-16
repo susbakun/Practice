@@ -27,7 +27,7 @@ function App() {
 
   const markAsPacked = async (item: ItemType) => {
     try {
-      await updateItem(item)
+      await updateItem({ ...item, packed: !item.packed })
       fetchItems()
     } catch (err) {
       console.error(err)
