@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react'
 import Items from './components/Items'
 import NewItem from './components/NewItem'
 import { ItemType } from '@shared/types'
+import {
+  addItemToDB,
+  deleteItemFromDB,
+  deleteUnpackedItemsFromDB,
+  getAll,
+  markAllAsUnpackedInDB,
+  updateItem
+} from './database'
 
 function App() {
   const [items, setItems] = useState<ItemType[]>([])
@@ -9,33 +17,57 @@ function App() {
   const unpackedItems = items.filter((item) => !item.packed)
 
   const addItem = async (item: Omit<ItemType, 'id'>) => {
-    const newItems = await window.context.addItem(item)
-    setItems(newItems)
+    try {
+      await addItemToDB(item)
+      fetchItems()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const markAsPacked = async (item: ItemType) => {
-    const Items = await window.context.updateItem(item)
-    setItems(Items)
+    try {
+      await updateItem(item)
+      fetchItems()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const markAllAsUnpacked = async () => {
-    const Items = await window.context.markAllAsUnpacked()
-    setItems(Items)
+    try {
+      await markAllAsUnpackedInDB()
+      fetchItems()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const fetchItems = async () => {
-    const Items = await window.context.fetchItems()
-    setItems(Items)
+    try {
+      const Items = await getAll()
+      setItems(Items)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const deleteItem = async (item: ItemType) => {
-    const Items = await window.context.deleteItem(item)
-    setItems(Items)
+    try {
+      await deleteItemFromDB(item)
+      fetchItems()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const deleteUnpackedItems = async () => {
-    const Items = await window.context.deleteUnpackedItems()
-    setItems(Items)
+    try {
+      await deleteUnpackedItemsFromDB()
+      fetchItems()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   useEffect(() => {

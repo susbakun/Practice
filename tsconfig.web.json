@@ -5,7 +5,7 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts"
-, "src/main/database.ts", "src/shared/*.ts"  ],
+, "src/renderer/src/database.ts", "src/shared/*.ts"  ],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
